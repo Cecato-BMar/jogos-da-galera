@@ -13,20 +13,21 @@
 1. Use o projeto Supabase `Jogos da Galera`.
 2. Copie a connection string PostgreSQL no painel do Supabase.
 3. Use essa string no Render como `DATABASE_URL`.
-4. Formato esperado:
-   `postgresql://postgres:SENHA_DO_BANCO@db.pilkxchbymfpoyakwxit.supabase.co:5432/postgres?sslmode=require`
+4. No Render Free, use a `Session pooler`, porque a conexao direta do Supabase usa IPv6.
+5. Formato esperado:
+   `postgresql://postgres.pilkxchbymfpoyakwxit:SENHA_DO_BANCO@aws-0-us-west-2.pooler.supabase.com:5432/postgres`
 
 ## Render backend
 
 - Blueprint: https://dashboard.render.com/blueprint/new?repo=https://github.com/Cecato-BMar/jogos-da-galera
 - Service name: `jogos-da-galera-backend`
 - Root Directory: `backend`
-- Build Command: `npm install && npx prisma generate && npm run build`
+- Build Command: `npm install --include=dev && npx prisma generate && npm run build`
 - Start Command: `npx prisma migrate deploy && npm run start:prod`
 
 Variaveis:
 
-- `DATABASE_URL`: connection string PostgreSQL do Supabase
+- `DATABASE_URL`: Session pooler do Supabase
 - `FRONTEND_URL`: `https://jogos-da-galera.vercel.app`
 - `PORT`: `3001`
 
@@ -47,7 +48,8 @@ Variaveis:
 - Criar sala
 - Entrar com segundo jogador
 - Iniciar jogo
-- Preencher respostas
-- Clicar STOP
+- Testar Stop
+- Testar Forca
+- Testar Jogo da Velha
 - Ver resultado
 - Compartilhar no WhatsApp

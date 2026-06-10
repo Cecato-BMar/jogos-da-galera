@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { api } from '@/services/api';
+import { GameType } from '@/types';
 
 const avatars = ['😎', '🤠', '🤓', '😂', '🔥', '🎮', '👑', '🐱'];
 
@@ -24,9 +25,10 @@ export default function PerfilPage() {
 
     const nextAction = localStorage.getItem('nextAction');
 
-    if (nextAction === 'create-room') {
+    if (nextAction === 'create-room' || nextAction?.startsWith('create-room:')) {
+      const gameType = (nextAction.split(':')[1] || 'STOP') as GameType;
       localStorage.removeItem('nextAction');
-      const room = await api.post('/rooms', { hostId: response.data.id });
+      const room = await api.post('/rooms', { hostId: response.data.id, gameType });
       router.push(`/sala/${room.data.code}`);
       return;
     }
@@ -45,7 +47,7 @@ export default function PerfilPage() {
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-700 via-purple-600 to-zinc-950 p-6">
       <section className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
         <h1 className="text-3xl font-black">Escolha seu apelido</h1>
-        <p className="mt-2 text-zinc-600">É assim que a galera vai te ver na sala.</p>
+        <p className="mt-2 text-zinc-600">E assim que a galera vai te ver na sala.</p>
 
         <div className="mt-6">
           <label className="mb-2 block font-bold">Avatar</label>
@@ -64,7 +66,7 @@ export default function PerfilPage() {
         </div>
 
         <div className="mt-6 grid gap-4">
-          <Input placeholder="Seu apelido" value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={18} />
+          <Input placeholder="Seu apelido" value={nickname} onChange={(event) => setNickname(event.target.value)} maxLength={18} />
           <Button onClick={continueFlow}>Continuar</Button>
         </div>
       </section>

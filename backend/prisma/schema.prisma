@@ -20,6 +20,7 @@ model Player {
 model Room {
   id             String     @id @default(uuid())
   code           String     @unique
+  gameType       GameType   @default(STOP)
   status         RoomStatus @default(WAITING)
   hostId         String
   currentRoundId String?
@@ -27,6 +28,7 @@ model Room {
 
   players        RoomPlayer[]
   rounds         Round[]
+  gameSessions   GameSession[]
 }
 
 model RoomPlayer {
@@ -67,6 +69,24 @@ model Answer {
   player    Player   @relation(fields: [playerId], references: [id])
 
   @@unique([roundId, playerId, category])
+}
+
+model GameSession {
+  id        String      @id @default(uuid())
+  roomId    String
+  gameType  GameType
+  status    RoundStatus @default(RUNNING)
+  state     Json
+  startedAt DateTime    @default(now())
+  endedAt   DateTime?
+
+  room      Room        @relation(fields: [roomId], references: [id])
+}
+
+enum GameType {
+  STOP
+  HANGMAN
+  TICTACTOE
 }
 
 enum RoomStatus {

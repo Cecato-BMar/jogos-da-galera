@@ -17,6 +17,7 @@ export class RoomsService {
       data: {
         code,
         hostId: dto.hostId,
+        gameType: dto.gameType || 'STOP',
         players: {
           create: {
             playerId: dto.hostId,

@@ -1,6 +1,12 @@
 # Jogos da Galera
 
-MVP de plataforma para jogar Stop online com amigos em tempo real.
+MVP de plataforma para jogar party games online com amigos em tempo real.
+
+Jogos disponiveis:
+
+- Stop Online
+- Forca Online
+- Jogo da Velha
 
 ## Stack
 
@@ -17,7 +23,7 @@ cd backend
 npm install
 cp .env.example .env
 npx prisma generate
-npx prisma migrate dev --name init
+npx prisma migrate dev
 npm run start:dev
 ```
 
